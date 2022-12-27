@@ -1,10 +1,13 @@
 package contas
 
+import (
+	"clientes"
+)
+
 type ContaCorrente struct {
-	Titular       string
-	NumeroAgencia int
-	NumeroConta   int
-	Saldo         float64
+	Titular                    clientes.Titular
+	NumeroAgencia, NumeroConta int
+	saldo                      float64
 }
 
 func (cc *ContaCorrente) Tranferir(valor float64, conta *ContaCorrente) string {
@@ -12,20 +15,20 @@ func (cc *ContaCorrente) Tranferir(valor float64, conta *ContaCorrente) string {
 		return "Valor de tranferência inválido"
 	}
 
-	temSaldo := cc.Saldo >= valor
+	temsaldo := cc.saldo >= valor
 
-	if temSaldo {
-		conta.depositar(valor)
+	if temsaldo {
+		conta.Depositar(valor)
 		cc.Sacar(valor)
 		return "Tranferência com sucesso"
 	} else {
-		return "Conta sem Saldo"
+		return "Conta sem saldo"
 	}
 }
 
-func (cc *ContaCorrente) depositar(valor float64) {
+func (cc *ContaCorrente) Depositar(valor float64) {
 	if valor > 0 {
-		cc.Saldo += valor
+		cc.saldo += valor
 	}
 }
 
@@ -36,15 +39,19 @@ func (cc *ContaCorrente) Sacar(valor float64) (string, float64) {
 		message = "Valor de saque inválido"
 	}
 
-	podeSacar := valor <= cc.Saldo
+	podeSacar := valor <= cc.saldo
 
 	if podeSacar {
-		cc.Saldo -= valor
+		cc.saldo -= valor
 		message = "Saque realizado com sucesso"
 
 	} else {
 		message = "Saque insuficiente"
 	}
 
-	return message, cc.Saldo
+	return message, cc.saldo
+}
+
+func (cc *ContaCorrente) ObterSaldo() float64 {
+	return cc.saldo
 }

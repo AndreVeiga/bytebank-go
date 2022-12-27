@@ -1,0 +1,47 @@
+package main
+
+import (
+	"fmt"
+)
+
+type ContaCorrente struct {
+	titular       string
+	numeroAgencia int
+	numeroConta   int
+	saldo         float64
+}
+
+func mutiplosValores (valores ...int) int {
+	total := 0
+	for _, valor := range valores {
+		total += valor
+	}
+
+	return total
+}
+
+func main() {
+	cc1 := ContaCorrente{
+		titular: "André", 
+		numeroAgencia: 123, 
+		numeroConta: 654321, 
+		saldo: 500.0
+	}
+	
+	cc2 := ContaCorrente{"André", 123, 654321, 0.0}
+
+	cc3 := ContaCorrente {}
+	cc3.titular = "Fernanda"
+
+	var cc4 *ContaCorrente
+	cc4 = new(ContaCorrente)
+	cc4.titular = "Tiago"
+
+	result := mutiplosValores(1,2,3,4,5)
+	fmt.Println("TOTAL: ", result)
+
+	fmt.Println(cc1)
+	fmt.Println(cc2)
+	fmt.Println(cc3)
+	fmt.Println(*cc4)
+}
